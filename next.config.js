@@ -10,7 +10,7 @@ const ContentSecurityPolicy = `
 };
   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
   font-src 'self' https://fonts.gstatic.com;
-  img-src 'self' data: https://i.ytimg.com https://*.ytimg.com;
+  img-src 'self' data: https://i.ytimg.com https://*.ytimg.com https://*.public.blob.vercel-storage.com;
   frame-src https://www.youtube.com;
   connect-src 'self' https://www.googleapis.com;
   frame-ancestors 'none';
