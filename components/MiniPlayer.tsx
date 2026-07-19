@@ -87,35 +87,36 @@ export default function MiniPlayer() {
     </svg>
   </button>
 
-  {/* Volumen — oculto en mobile por espacio, el sistema operativo cubre ese caso */}
-  <div className="hidden sm:flex items-center gap-2 pl-2 border-l border-wire">
-    <button
-      onClick={toggleMute}
-      aria-label={isMuted ? "Activar sonido" : "Silenciar"}
-      className="w-9 h-9 flex items-center justify-center text-ink/60 hover:text-ink transition-colors duration-instant ease-enter"
-    >
-      {isMuted || volume === 0 ? (
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.3">
-          <path d="M1 5H3.5L7 2V12L3.5 9H1V5Z" />
-          <path d="M9.5 5L12.5 8M12.5 5L9.5 8" strokeLinecap="round" />
-        </svg>
-      ) : (
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.3">
-          <path d="M1 5H3.5L7 2V12L3.5 9H1V5Z" />
-          <path d="M9.5 4.5C10.5 5.5 10.5 8.5 9.5 9.5" strokeLinecap="round" />
-        </svg>
-      )}
-    </button>
-      <input
-      type="range"
-      min={0}
-      max={100}
-      value={isMuted ? 0 : volume}
-      onChange={(e) => setVolume(Number(e.target.value))}
-      aria-label="Volumen"
-      className="w-16 accent-ink"
-          />
-        </div>
+  {/* Botón de mute — visible en todas las pantallas, esencial por el autoplay muteado en mobile */}
+<div className="flex items-center gap-2 pl-2 border-l border-wire">
+  <button
+    onClick={toggleMute}
+    aria-label={isMuted ? "Activar sonido" : "Silenciar"}
+    className="w-9 h-9 flex items-center justify-center text-ink/60 hover:text-ink transition-colors duration-instant ease-enter"
+  >
+    {isMuted || volume === 0 ? (
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.3">
+        <path d="M1 5H3.5L7 2V12L3.5 9H1V5Z" />
+        <path d="M9.5 5L12.5 8M12.5 5L9.5 8" strokeLinecap="round" />
+      </svg>
+    ) : (
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.3">
+        <path d="M1 5H3.5L7 2V12L3.5 9H1V5Z" />
+        <path d="M9.5 4.5C10.5 5.5 10.5 8.5 9.5 9.5" strokeLinecap="round" />
+      </svg>
+    )}
+  </button>
+  {/* Slider de volumen — se oculta solo en mobile, ahí el volumen del sistema cubre ese ajuste fino */}
+  <input
+    type="range"
+    min={0}
+    max={100}
+    value={isMuted ? 0 : volume}
+    onChange={(e) => setVolume(Number(e.target.value))}
+    aria-label="Volumen"
+    className="hidden sm:block w-16 accent-ink"
+  />
+</div>
       </div>
     </div>
   </div>
