@@ -110,12 +110,14 @@ export default function PlayerProvider({ children }: { children: React.ReactNode
   playerVars: { autoplay: 1, controls: 0, disablekb: 1, fs: 0 },
   events: {
     onReady: () => {
-      const saved = Number(window.localStorage.getItem("arcade-signal-volume"));
-      const initialVolume = saved >= 0 && saved <= 100 ? saved : 80;
-      setVolumeState(initialVolume);
-      playerRef.current?.setVolume(initialVolume);
-      void playTrack(newStation.id);
-    },
+  const saved = Number(window.localStorage.getItem("arcade-signal-volume"));
+  const initialVolume = saved >= 0 && saved <= 100 ? saved : 80;
+  setVolumeState(initialVolume);
+  playerRef.current?.setVolume(initialVolume);
+  playerRef.current?.unMute();
+  setIsMuted(false);
+  void playTrack(newStation.id);
+},
     onStateChange: (e: YT.OnStateChangeEvent) => {
       if (e.data === window.YT!.PlayerState.PLAYING) setIsPlaying(true);
       if (e.data === window.YT!.PlayerState.PAUSED) setIsPlaying(false);

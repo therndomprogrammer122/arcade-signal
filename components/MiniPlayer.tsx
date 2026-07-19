@@ -90,10 +90,11 @@ export default function MiniPlayer() {
   {/* Botón de mute — visible en todas las pantallas, esencial por el autoplay muteado en mobile */}
 <div className="flex items-center gap-2 pl-2 border-l border-wire">
   <button
-    onClick={toggleMute}
-    aria-label={isMuted ? "Activar sonido" : "Silenciar"}
-    className="w-9 h-9 flex items-center justify-center text-ink/60 hover:text-ink transition-colors duration-instant ease-enter"
-  >
+  onClick={toggleMute}
+  aria-label={isMuted ? "Activar sonido" : "Silenciar"}
+  className="w-9 h-9 flex items-center justify-center text-ink/60 hover:text-ink active:scale-90 transition-all duration-player ease-enter"
+>
+    <span key={isMuted ? "muted" : "unmuted"} className="inline-flex animate-mute-toggle">
     {isMuted || volume === 0 ? (
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.3">
         <path d="M1 5H3.5L7 2V12L3.5 9H1V5Z" />
@@ -105,7 +106,8 @@ export default function MiniPlayer() {
         <path d="M9.5 4.5C10.5 5.5 10.5 8.5 9.5 9.5" strokeLinecap="round" />
       </svg>
     )}
-  </button>
+  </span>
+</button>
   {/* Slider de volumen — se oculta solo en mobile, ahí el volumen del sistema cubre ese ajuste fino */}
   <input
     type="range"

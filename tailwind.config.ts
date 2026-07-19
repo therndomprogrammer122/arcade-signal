@@ -66,6 +66,10 @@ const config: Config = {
           "0%, 100%": { opacity: "0.5" },
           "50%": { opacity: "0.8" },
         },
+        "mute-toggle": {
+          from: { opacity: "0", transform: "scale(0.6) rotate(-8deg)" },
+          to: { opacity: "1", transform: "scale(1) rotate(0deg)" },
+        },
         // -- motivos del StationVisualizer (uno por estación, según franquicia) --
         "pulse-ring": {
           "0%, 100%": { opacity: "0.15", transform: "scale(0.9)" },
@@ -96,6 +100,8 @@ const config: Config = {
         "led-blink": "led-blink 1.6s ease-in-out infinite",
         "reel-spin": "reel-spin 3s linear infinite",
         "static-flicker": "static-flicker 2.2s ease-in-out infinite",
+        "mute-toggle": "mute-toggle 180ms cubic-bezier(0.16,1,0.3,1)",
+
         // -- motivos del StationVisualizer --
         "pulse-ring": "pulse-ring 2.4s ease-in-out infinite",
         "sonar-ping": "sonar-ping 2s ease-out infinite",
