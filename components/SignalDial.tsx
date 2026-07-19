@@ -17,16 +17,56 @@ const TICKS = Array.from({ length: 21 }, (_, i) => FREQ_MIN + i);
 const LABELS = [88, 92, 96, 100, 104, 108];
 
 export default function SignalDial({ stations }: { stations: StationSummary[] }) {
-  const { station } = usePlayer();
+  const { station, playStation } = usePlayer();
   const activeIndex = station ? stations.findIndex((s) => s.id === station.id) : -1;
   const tuned = activeIndex >= 0;
   const freq = tuned ? frequencyFor(activeIndex, stations.length) : null;
   const pct = freq !== null ? ((freq - FREQ_MIN) / (FREQ_MAX - FREQ_MIN)) * 100 : 0;
 
+  function handleDialClick(e: React.MouseEvent<HTMLDivElement>) {
+  if (stations.length === 0) return;
+  const rect = e.currentTarget.getBoundingClientRect();
+  const clickPct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+  const clickedFreq = FREQ_MIN + clickPct * (FREQ_MAX - FREQ_MIN);
+
+  // Busca la estación cuya frecuencia esté más cerca de donde tocaron
+  let closestIndex = 0;
+  let closestDistance = Infinity;
+  stations.forEach((_, i) => {
+    const freq = frequencyFor(i, stations.length);
+    const distance = Math.abs(freq - clickedFreq);
+    if (distance < closestDistance) {
+      closestDistance = distance;
+      closestIndex = i;
+    }
+  });
+
+  const target = stations[closestIndex];
+  if (target) void playStation(target);
+}
+
   return (
     <div className="border border-wire bg-surface px-4 sm:px-6 py-4 sm:py-5">
       {/* Escala del dial */}
-      <div className="relative h-8">
+      <div
+  className="relative h-8 cursor-pointer"
+  onClick={handleDialClick}
+  role="slider"
+  aria-label="Sintonizar estación por frecuencia"
+  aria-valuemin={FREQ_MIN}
+  aria-valuemax={FREQ_MAX}
+  aria-valuenow={freq ?? FREQ_MIN}
+  tabIndex={0}
+  onKeyDown={(e) => {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    e.preventDefault();
+    const rect = e.currentTarget.getBoundingClientRect();
+    handleDialClick({
+      currentTarget: e.currentTarget,
+      clientX: rect.left + rect.width / 2,
+    } as React.MouseEvent<HTMLDivElement>);
+  }}
+>
         {/* marcas finas */}
         <div className="absolute inset-x-0 top-0 flex justify-between">
           {TICKS.map((t) => (

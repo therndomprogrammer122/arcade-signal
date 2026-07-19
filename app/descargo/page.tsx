@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import ContactForm from "@/components/ContactForm";
 
 export const metadata: Metadata = {
   title: "Descargo de responsabilidad — Arcade Signal",
@@ -43,12 +44,7 @@ export default function DescargoPage() {
           <p className="font-mono text-[10px] tracking-widemono uppercase text-ink/40 mb-2">
             Contacto para retiro de contenido
           </p>
-          <a
-            href="mailto:contacto@arcadesignal.example"
-            className="font-serif text-2xl text-ink underline underline-offset-4 decoration-ink/30 hover:decoration-led hover:text-led transition-colors duration-instant ease-enter"
-          >
-            contacto@arcadesignal.example
-          </a>
+          <ContactForm />
         </div>
       </div>
     </main>

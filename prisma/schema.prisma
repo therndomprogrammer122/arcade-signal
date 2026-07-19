@@ -83,3 +83,13 @@ model Suggestion {
 
   @@index([reviewed, createdAt])
 }
+model ContactMessage {
+  id        String   @id @default(cuid())
+  message   String
+  replyTo   String?  // email opcional que la persona deja si quiere respuesta
+  reviewed  Boolean  @default(false)
+  ip        String?
+  createdAt DateTime @default(now())
+
+  @@index([reviewed, createdAt])
+}
