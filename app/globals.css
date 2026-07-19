@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+* {
+  border-color: theme("colors.wire");
+}
+
+body {
+  position: relative;
+}
+
+/* Textura de grano — emula el ruido de una pantalla CRT apagándose.
+   Muy sutil (2%) para no competir con el contenido (impeccable-design). */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 998;
+  pointer-events: none;
+  opacity: 0.025;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Scanlines de CRT — imperceptibles, solo dan textura de tubo, nunca un
+   filtro "retro" exagerado. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 997;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    theme("colors.ink") 0px,
+    theme("colors.ink") 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Foco de teclado visible — accesibilidad, nunca outline: none sin reemplazo */
+:focus-visible {
+  outline: 2px solid theme("colors.led");
+  outline-offset: 2px;
+}
+
+/* Usada por /admin (tema claro, sin tocar) */
+.hairline {
+  border-top: 1px solid theme("colors.rule");
+}
+
+/* Usada por la UI pública nueva (tema oscuro) */
+.hairline-signal {
+  border-top: 1px solid theme("colors.wire");
+}
+
+.tracking-caption {
+  letter-spacing: 0.08em;
+}

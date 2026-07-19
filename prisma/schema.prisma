@@ -1,0 +1,85 @@
+// ARCADE SIGNAL — Data model
+// La app pública se conecta con DATABASE_URL_PUBLIC (rol solo-lectura, ver README).
+// El panel admin se conecta con DATABASE_URL (rol lectura/escritura).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Station {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  franchise   String
+  logoUrl     String
+  accentColor String // hex, ej. "#3E5C4A" (verde Hyrule apagado)
+  motif       String   @default("bars") // "triforce" | "sonar" | "particles" | "scanlines" | "bars" — visualizador al reproducir
+  featured    Boolean  @default(false) // aparece como "portada" en el grid
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tracks Track[]
+
+  @@index([order])
+}
+
+model Track {
+  id           String   @id @default(cuid())
+  youtubeId    String
+  title        String
+  channelTitle String?
+  durationSec  Int?
+  thumbnailUrl String?
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now())
+
+  stationId String
+  station   Station @relation(fields: [stationId], references: [id], onDelete: Cascade)
+
+  @@index([stationId, active])
+  @@unique([stationId, youtubeId])
+}
+
+model AdminUser {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  passwordHash  String
+  totpSecret    String? // secreto 2FA (otplib), null hasta que se active
+  totpEnabled   Boolean  @default(false)
+  failedLogins  Int      @default(0)
+  lockedUntil   DateTime?
+  createdAt     DateTime @default(now())
+
+  auditLogs AuditLog[]
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  action    String // ej. "TRACK_CREATE", "STATION_UPDATE", "LOGIN_SUCCESS"
+  entity    String? // ej. "Track:ck123"
+  detail    String? // JSON serializado con el detalle del cambio
+  ip        String?
+  createdAt DateTime @default(now())
+
+  adminId String
+  admin   AdminUser @relation(fields: [adminId], references: [id])
+
+  @@index([adminId, createdAt])
+}
+model Suggestion {
+  id        String   @id @default(cuid())
+  type      String   @default("estacion") // "estacion" | "feedback"
+  franchise String? // solo aplica cuando type = "estacion"
+  notes     String? // franquicia: notas opcionales · feedback: el mensaje completo
+  reviewed  Boolean  @default(false)
+  ip        String?
+  createdAt DateTime @default(now())
+
+  @@index([reviewed, createdAt])
+}
