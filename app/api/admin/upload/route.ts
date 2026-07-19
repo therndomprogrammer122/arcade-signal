@@ -4,16 +4,13 @@ import { authOptions } from "@/lib/auth";
 import { rateLimit, getClientIp } from "@/lib/rateLimit";
 import { verifyCsrfToken, CSRF_HEADER } from "@/lib/csrf";
 import { writeAuditLog } from "@/lib/audit";
+import { put } from "@vercel/blob";
 import { randomBytes } from "crypto";
-import { mkdir, writeFile } from "fs/promises";
-import path from "path";
 
 export const runtime = "nodejs";
 
 const MAX_SIZE = 5 * 1024 * 1024; // 5MB
 
-// Firmas de archivo reales (magic bytes) — no confiamos en la extensión ni en el
-// Content-Type que manda el navegador, ambos se pueden falsear fácilmente.
 function detectImageType(buf: Buffer): "png" | "jpg" | "gif" | "webp" | null {
   if (buf.length < 12) return null;
   if (buf[0] === 0x89 && buf[1] === 0x50 && buf[2] === 0x4e && buf[3] === 0x47) return "png";
@@ -54,20 +51,20 @@ export async function POST(req: Request) {
     );
   }
 
-  // Nombre generado por el servidor — nunca usamos el nombre original del archivo,
-  // así evitamos path traversal o colisiones intencionales.
-  const filename = `${randomBytes(16).toString("hex")}.${ext}`;
-  const dir = path.join(process.cwd(), "public", "uploads", "logos");
-  await mkdir(dir, { recursive: true });
-  await writeFile(path.join(dir, filename), buffer);
+  const filename = `logos/${randomBytes(16).toString("hex")}.${ext}`;
+
+  const blob = await put(filename, buffer, {
+    access: "public",
+    contentType: `image/${ext === "jpg" ? "jpeg" : ext}`,
+  });
 
   await writeAuditLog({
     adminId: (session.user as { id: string }).id,
     action: "LOGO_UPLOAD",
     entity: filename,
-    detail: { originalName: file.name, size: file.size, type: ext },
+    detail: { originalName: file.name, size: file.size, type: ext, url: blob.url },
     ip,
   });
 
-  return NextResponse.json({ url: `/uploads/logos/${filename}` });
+  return NextResponse.json({ url: blob.url });
 }
