@@ -61,15 +61,21 @@ export default function PlayerProvider({ children }: { children: React.ReactNode
 
   const playerRef = useRef<YT.Player | null>(null);
   const stationRef = useRef<StationSummary | null>(null);
-  const lastTrackIdRef = useRef<string | undefined>(undefined);
+  // Historial de los últimos tracks reproducidos (más reciente primero),
+  // por estación — así al cambiar de estación no arrastramos exclusiones
+  // que no corresponden. Con esto el backend evita repetir cualquiera de
+  // estos, no solo el track anterior.
+  const HISTORY_LIMIT = 30;
+  const historyByStationRef = useRef<Map<string, string[]>>(new Map());
   const progressInterval = useRef<ReturnType<typeof setInterval> | null>(null);
 
   // Pide el siguiente track al backend — el cliente nunca conoce el catálogo completo.
   const fetchNextTrack = useCallback(async (stationId: string) => {
     setIsBuffering(true);
     try {
-      const excludeParam = lastTrackIdRef.current
-        ? `?exclude=${lastTrackIdRef.current}`
+      const history = historyByStationRef.current.get(stationId) ?? [];
+      const excludeParam = history.length
+        ? `?exclude=${history.join(",")}`
         : "";
       const res = await fetch(`/api/stations/${stationId}/next-track${excludeParam}`);
       if (!res.ok) throw new Error("next-track failed");
@@ -84,7 +90,9 @@ export default function PlayerProvider({ children }: { children: React.ReactNode
     async (stationId: string) => {
       const nextTrack = await fetchNextTrack(stationId);
       if (!nextTrack) return;
-      lastTrackIdRef.current = nextTrack.id;
+      const history = historyByStationRef.current.get(stationId) ?? [];
+      const updatedHistory = [nextTrack.id, ...history].slice(0, HISTORY_LIMIT);
+      historyByStationRef.current.set(stationId, updatedHistory);
       setTrack(nextTrack);
       playerRef.current?.loadVideoById(nextTrack.youtubeId);
     },
