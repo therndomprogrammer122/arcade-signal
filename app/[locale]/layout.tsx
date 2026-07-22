@@ -3,7 +3,6 @@ import { getMessages, unstable_setRequestLocale as setRequestLocale } from "next
 import { notFound } from "next/navigation";
 import { locales } from "@/i18n";
 import Footer from "@/components/Footer";
-import PlayerProvider from "@/components/PlayerProvider";
 
 export const dynamic = "force-dynamic";
 
@@ -26,10 +25,8 @@ export default async function LocaleLayout({
 
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
-      <PlayerProvider>
-        {children}
-        <Footer />
-      </PlayerProvider>
+      {children}
+      <Footer />
     </NextIntlClientProvider>
   );
 }

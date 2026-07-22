@@ -8,7 +8,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { useLocale } from "next-intl";
+import { usePathname } from "next/navigation";
 import { loadYouTubeApi } from "@/lib/youtube";
 import MiniPlayer from "@/components/MiniPlayer";
 
@@ -52,7 +52,8 @@ export function usePlayer(): PlayerContextValue {
 }
 
 export default function PlayerProvider({ children }: { children: React.ReactNode }) {
-  const locale = useLocale();
+  const pathname = usePathname();
+  const locale = pathname?.startsWith("/en") ? "en" : "es";
   const [station, setStation] = useState<StationSummary | null>(null);
   const [track, setTrack] = useState<CurrentTrack | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -172,6 +173,34 @@ const toggleMute = useCallback(() => {
     setIsMuted(true);
   }
 }, [isMuted]);
+
+  useEffect(() => {
+    let host = document.getElementById("arcade-signal-yt-host");
+    if (!host) {
+      host = document.createElement("div");
+      host.id = "arcade-signal-yt-host";
+      host.setAttribute("aria-hidden", "true");
+      host.style.position = "absolute";
+      host.style.width = "1px";
+      host.style.height = "1px";
+      host.style.overflow = "hidden";
+      host.style.clip = "rect(0,0,0,0)";
+      document.body.appendChild(host);
+    }
+  }, []);
+
+// Progreso del track actual (para la barra minimalista del mini-player)
+  useEffect(() => {
+    if (progressInterval.current) clearInterval(progressInterval.current);
+    progressInterval.current = setInterval(() => {
+      const p = playerRef.current?.getCurrentTime?.();
+      if (typeof p === "number") setProgressSec(p);
+    }, 1000);
+    return () => {
+      if (progressInterval.current) clearInterval(progressInterval.current);
+    };
+  }, []);
+
   // Progreso del track actual (para la barra minimalista del mini-player)
   useEffect(() => {
     if (progressInterval.current) clearInterval(progressInterval.current);
@@ -220,8 +249,6 @@ useEffect(() => {
       value={{ station, track, isPlaying, isBuffering, progressSec, volume, isMuted, playStation, togglePlay, skip,setVolume,toggleMute }}
     >
       {children}
-      {/* Host oculto para el iframe de audio — nunca se muestra video */}
-      <div id="arcade-signal-yt-host" className="sr-only" aria-hidden="true" />
       {station && <MiniPlayer />}
     </PlayerContext.Provider>
   );

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Unbounded, Inter, Space_Mono } from "next/font/google";
 import "./globals.css";
+import PlayerProvider from "@/components/PlayerProvider";
 
 const display = Unbounded({
   subsets: ["latin"],
@@ -38,15 +39,14 @@ export const metadata: Metadata = {
   manifest: "/icon/site.webmanifest",
 };
 
-// NOTA: PlayerProvider (el reproductor persistente) ya NO vive aquí — se
-// movio a app/[locale]/layout.tsx para que quede DENTRO del sistema de
-// idiomas (NextIntlClientProvider). Antes estaba afuera, por eso el
-// MiniPlayer nunca pudo traducirse sin romper la app entera.
+// PlayerProvider vive aquí, FUERA del segmento [locale], a propósito:
+// así al cambiar de idioma (que navega entre /es y /en) el reproductor
+// nunca se desmonta, y la música sigue sonando durante el cambio.
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es" className={`${display.variable} ${body.variable} ${mono.variable}`}>
       <body className="bg-void text-ink font-sans antialiased min-h-screen flex flex-col">
-        {children}
+        <PlayerProvider>{children}</PlayerProvider>
       </body>
     </html>
   );
