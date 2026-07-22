@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { usePlayer } from "@/components/PlayerProvider";
 
 function formatTime(sec: number): string {
@@ -9,6 +10,7 @@ function formatTime(sec: number): string {
 }
 
 export default function MiniPlayer() {
+  const t = useTranslations("miniPlayer");
   const { station, track, isPlaying, isBuffering, progressSec, volume, isMuted, togglePlay, skip, setVolume, toggleMute } = usePlayer();
   if (!station) return null;
 
@@ -19,7 +21,7 @@ export default function MiniPlayer() {
     <div
       className="fixed bottom-0 left-0 right-0 z-50 bg-surface2 border-t border-wire"
       role="region"
-      aria-label="Reproductor"
+      aria-label={t("region")}
     >
       {/* barra de progreso — línea delgada tipo cinta, sin gradiente */}
       <div className="h-[2px] w-full bg-ink/10">
@@ -46,10 +48,10 @@ export default function MiniPlayer() {
 
         <div className="min-w-0 flex-1">
           <p className="font-mono text-[10px] tracking-widemono uppercase text-ink/40">
-            Sonando ahora — {station.name}
+            {t("nowPlaying", { station: station.name })}
           </p>
           <p className="font-sans text-sm font-medium truncate text-ink">
-            {isBuffering ? "Cargando siguiente pista…" : track?.title ?? "—"}
+            {isBuffering ? t("loadingNext") : track?.title ?? "—"}
           </p>
         </div>
 
@@ -62,7 +64,7 @@ export default function MiniPlayer() {
         <div className="flex items-center gap-2 shrink-0">
   <button
     onClick={togglePlay}
-    aria-label={isPlaying ? "Pausar" : "Reproducir"}
+    aria-label={isPlaying ? t("pause") : t("play")}
     className="w-9 h-9 flex items-center justify-center border border-wire text-ink transition-colors duration-instant ease-enter hover:bg-ink hover:text-void"
   >
     {isPlaying ? (
@@ -78,7 +80,7 @@ export default function MiniPlayer() {
   </button>
   <button
     onClick={skip}
-    aria-label="Siguiente pista"
+    aria-label={t("nextTrack")}
     className="w-9 h-9 flex items-center justify-center border border-wire text-ink transition-colors duration-instant ease-enter hover:bg-ink hover:text-void"
   >
     <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
@@ -91,7 +93,7 @@ export default function MiniPlayer() {
 <div className="flex items-center gap-2 pl-2 border-l border-wire">
   <button
   onClick={toggleMute}
-  aria-label={isMuted ? "Activar sonido" : "Silenciar"}
+  aria-label={isMuted ? t("unmute") : t("mute")}
   className="w-9 h-9 flex items-center justify-center text-ink/60 hover:text-ink active:scale-90 transition-all duration-player ease-enter"
 >
     <span key={isMuted ? "muted" : "unmuted"} className="inline-flex animate-mute-toggle">
@@ -115,7 +117,7 @@ export default function MiniPlayer() {
     max={100}
     value={isMuted ? 0 : volume}
     onChange={(e) => setVolume(Number(e.target.value))}
-    aria-label="Volumen"
+    aria-label={t("volume")}
     className="hidden sm:block w-16 accent-ink"
   />
 </div>

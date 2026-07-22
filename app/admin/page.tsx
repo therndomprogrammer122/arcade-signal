@@ -89,6 +89,12 @@ export default function AdminDashboard() {
 >
   Sugerencias
 </Link>
+      <Link
+        href="/admin/mensajes"
+        className="font-mono text-[10px] tracking-widemono uppercase underline underline-offset-4 mr-6"
+      >
+        Mensajes
+      </Link>
 
       <section className="mb-12">
         {stations === null && <p className="font-sans text-sm text-carbon/50">Cargando…</p>}

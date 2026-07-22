@@ -1,8 +1,10 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { usePlayer, type StationSummary } from "@/components/PlayerProvider";
 
 export default function SurpriseButton({ stations }: { stations: StationSummary[] }) {
+  const t = useTranslations("surprise");
   const { playStation } = usePlayer();
 
   const handleSurprise = () => {
@@ -17,7 +19,7 @@ export default function SurpriseButton({ stations }: { stations: StationSummary[
       disabled={stations.length === 0}
       className="font-mono text-[11px] tracking-widemono uppercase border border-ink/60 text-ink px-4 py-2 transition-colors duration-instant ease-enter hover:bg-ink hover:text-void disabled:opacity-30"
     >
-      Escanear señal →
+      {t("label")} →
     </button>
   );
 }

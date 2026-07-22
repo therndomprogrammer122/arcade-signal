@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { usePlayer, type StationSummary } from "@/components/PlayerProvider";
 import { frequencyFor } from "@/components/SignalDial";
 import StationVisualizer from "@/components/StationVisualizer";
@@ -13,6 +14,7 @@ interface Props {
 }
 
 export default function StationCard({ station, index, total, featured }: Props) {
+  const t = useTranslations("home");
   const { station: current, playStation } = usePlayer();
   const isActive = current?.id === station.id;
   const catalogCode = `LD-${String(index + 1).padStart(2, "0")}`;
@@ -35,7 +37,7 @@ export default function StationCard({ station, index, total, featured }: Props) 
       >
         <Image
           src={station.logoUrl}
-          alt={`Logo de ${station.franchise}`}
+          alt={station.franchise}
           width={200}
           height={200}
           className="object-contain h-[70%] w-auto"
@@ -43,7 +45,7 @@ export default function StationCard({ station, index, total, featured }: Props) 
         {isActive && (
           <span className="absolute top-1.5 right-1.5 flex items-center gap-1 bg-void/70 px-1.5 py-0.5">
             <span className="w-1.5 h-1.5 rounded-full bg-led animate-led-blink" aria-hidden="true" />
-            <span className="font-mono text-[8px] tracking-widemono uppercase text-ink">En vivo</span>
+            <span className="font-mono text-[8px] tracking-widemono uppercase text-ink">{t("live")}</span>
           </span>
         )}
       </div>
@@ -67,7 +69,7 @@ export default function StationCard({ station, index, total, featured }: Props) 
             {station.name}
           </p>
           <p className="font-mono text-[9px] tracking-widemono uppercase text-ink/40 mt-1 group-hover:text-led transition-colors duration-instant ease-enter">
-            {isActive ? "Sonando ahora" : "Reproducir cassette"}
+            {isActive ? t("nowPlaying") : t("playCassette")}
           </p>
         </div>
       </div>

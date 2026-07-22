@@ -1,0 +1,70 @@
+{
+  "home": {
+    "eyebrow": "Frecuencia pirata",
+    "subtitle": "Transmisión continua",
+    "description": "Elige una estación. No busques canciones — solo dale play y deja que suene la banda sonora de tu franquicia favorita, sin parar.",
+    "suggestStation": "Sugiere una estación",
+    "shortcuts": "␣ reproducir / pausar · ← → cambiar de estación",
+    "searchPlaceholder": "Buscar estación o franquicia…",
+    "noResults": "No hay estaciones que coincidan con \"{query}\".",
+    "sideA": "Lado A — en portada",
+    "sideB": "Lado B — catálogo completo",
+    "noStations": "Todavía no hay estaciones cargadas. Vuelve pronto.",
+    "stationPrefix": "Estación",
+    "nowPlaying": "Sonando ahora",
+    "playCassette": "Reproducir cassette",
+    "live": "En vivo"
+  },
+  "suggestions": {
+  "eyebrow": "Frecuencia pirata",
+  "titleStation": "Sugiere una estación",
+  "titleFeedback": "Danos tu feedback",
+  "descStation": "¿Qué franquicia o banda sonora te gustaría escuchar acá? Mandanos la idea, no garantizamos que se agregue, pero las leemos todas.",
+  "descFeedback": "¿Algo que no funciona, una idea, o simplemente qué te pareció el sitio? Te leemos.",
+  "tabStation": "Sugerir estación",
+  "tabFeedback": "Feedback del sitio",
+  "sent": "Gracias, la recibimos. 📻",
+  "franchiseLabel": "Franquicia o juego *",
+  "franchisePlaceholder": "ej. Chrono Trigger",
+  "notesLabel": "Notas (opcional)",
+  "feedbackLabel": "Tu feedback *",
+  "notesPlaceholder": "Algo puntual que quieras aclarar…",
+  "feedbackPlaceholder": "Contanos qué te gustó, qué no, o qué le agregarías…",
+  "error": "Algo salió mal. Probá de nuevo en un momento.",
+  "sending": "Enviando…",
+  "submit": "Enviar",
+  "back": "← Volver a la radio"
+},
+"disclaimer": {
+  "eyebrow": "Página legal",
+  "title": "Descargo de responsabilidad",
+  "p1": "Arcade Signal es un proyecto hecho por fans, sin fines de lucro. No está afiliado, patrocinado ni respaldado por ninguna compañía de videojuegos, editorial o desarrolladora cuyas franquicias, nombres o logotipos se mencionan o utilizan aquí con fines identificativos.",
+  "p2": "Todas las marcas, logotipos y nombres de franquicias son propiedad de sus respectivos dueños. El audio reproducido en esta web se sirve mediante la reproducción embebida y oculta de videos alojados en YouTube, a través de la YouTube IFrame Player API — no se aloja, ni se distribuye, ni se descarga ningún archivo de audio en nuestros servidores.",
+  "p3": "Si eres titular de derechos sobre algún contenido enlazado desde esta web y deseas solicitar su retiro, contáctanos y lo resolveremos a la brevedad.",
+  "contactLabel": "Contacto para retiro de contenido"
+},
+  "footer": {
+    "tagline": "Arcade Signal — Proyecto de fans, sin fines de lucro",
+    "suggestLink": "Sugiere una estación",
+    "disclaimerLink": "Descargo de responsabilidad"
+  },
+  "surprise": {
+    "label": "Escanear señal"
+  },
+  "signalDial": {
+    "ariaLabel": "Sintonizar estación por frecuencia",
+    "noSignal": "— sin señal · elige una estación —",
+    "tunedInto": "sintonizado en"
+  },
+  "miniPlayer": {
+    "region": "Reproductor",
+    "nowPlaying": "Sonando ahora — {station}",
+    "loadingNext": "Cargando siguiente pista…",
+    "play": "Reproducir",
+    "pause": "Pausar",
+    "nextTrack": "Siguiente pista",
+    "mute": "Silenciar",
+    "unmute": "Activar sonido",
+    "volume": "Volumen"
+  }
+}

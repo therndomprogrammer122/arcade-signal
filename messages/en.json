@@ -1,0 +1,70 @@
+{
+  "home": {
+    "eyebrow": "Pirate frequency",
+    "subtitle": "Continuous broadcast",
+    "description": "Pick a station. Don't search for songs — just hit play and let your favorite franchise's soundtrack keep going.",
+    "suggestStation": "Suggest a station",
+    "shortcuts": "␣ play / pause · ← → change station",
+    "searchPlaceholder": "Search station or franchise…",
+    "noResults": "No stations match \"{query}\".",
+    "sideA": "Side A — on the cover",
+    "sideB": "Side B — full catalog",
+    "noStations": "No stations loaded yet. Check back soon.",
+    "stationPrefix": "Station",
+    "nowPlaying": "Now playing",
+    "playCassette": "Play cassette",
+    "live": "Live"
+  },
+  "suggestions": {
+  "eyebrow": "Pirate frequency",
+  "titleStation": "Suggest a station",
+  "titleFeedback": "Give us feedback",
+  "descStation": "What franchise or soundtrack would you like to hear here? Send us the idea — we can't promise it'll be added, but we read them all.",
+  "descFeedback": "Something not working, an idea, or just what you thought of the site? We're listening.",
+  "tabStation": "Suggest station",
+  "tabFeedback": "Site feedback",
+  "sent": "Thanks, got it. 📻",
+  "franchiseLabel": "Franchise or game *",
+  "franchisePlaceholder": "e.g. Chrono Trigger",
+  "notesLabel": "Notes (optional)",
+  "feedbackLabel": "Your feedback *",
+  "notesPlaceholder": "Anything specific you'd like to clarify…",
+  "feedbackPlaceholder": "Tell us what you liked, what you didn't, or what you'd add…",
+  "error": "Something went wrong. Try again in a moment.",
+  "sending": "Sending…",
+  "submit": "Submit",
+  "back": "← Back to the radio"
+},
+"disclaimer": {
+  "eyebrow": "Legal page",
+  "title": "Disclaimer",
+  "p1": "Arcade Signal is a non-commercial fan project. It is not affiliated with, sponsored by, or endorsed by any game company, publisher, or developer whose franchises, names, or logos are mentioned or used here for identification purposes.",
+  "p2": "All trademarks, logos, and franchise names are property of their respective owners. Audio played on this site is served through hidden embedded YouTube videos via the YouTube IFrame Player API — no audio file is hosted, distributed, or downloaded on our servers.",
+  "p3": "If you are a rights holder for content linked from this site and want it taken down, contact us and we'll resolve it promptly.",
+  "contactLabel": "Contact for content takedown requests"
+},
+  "footer": {
+    "tagline": "Arcade Signal — Fan project, non-commercial",
+    "suggestLink": "Suggest a station",
+    "disclaimerLink": "Disclaimer"
+  },
+  "surprise": {
+    "label": "Scan signal"
+  },
+  "signalDial": {
+    "ariaLabel": "Tune station by frequency",
+    "noSignal": "— no signal · pick a station —",
+    "tunedInto": "tuned into"
+  },
+  "miniPlayer": {
+    "region": "Player",
+    "nowPlaying": "Now playing — {station}",
+    "loadingNext": "Loading next track…",
+    "play": "Play",
+    "pause": "Pause",
+    "nextTrack": "Next track",
+    "mute": "Mute",
+    "unmute": "Unmute",
+    "volume": "Volume"
+  }
+}

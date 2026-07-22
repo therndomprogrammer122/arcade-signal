@@ -19,6 +19,7 @@ const logoUrlSchema = z
 
 const patchSchema = z.object({
   name: z.string().min(1).max(100).optional(),
+  nameEn: z.string().max(100).optional().nullable(),
   franchise: z.string().min(1).max(100).optional(),
   logoUrl: logoUrlSchema.optional(),
   accentColor: z
@@ -55,6 +56,10 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
 
   const data = { ...parsed.data };
   if (data.name) data.name = sanitizeText(data.name, 100);
+  if (data.nameEn) data.nameEn = sanitizeText(data.nameEn, 100);
+  // Permite borrar el nombre en inglés mandando un string vacío: vuelve a
+  // caer en el nombre en español para /en hasta que se cargue otro.
+  if (data.nameEn === "") data.nameEn = null;
   if (data.franchise) data.franchise = sanitizeText(data.franchise, 100);
 
   const station = await prisma.station.update({ where: { id: params.id }, data });

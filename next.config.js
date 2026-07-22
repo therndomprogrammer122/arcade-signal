@@ -1,3 +1,6 @@
+const createNextIntlPlugin = require("next-intl/plugin");
+const withNextIntl = createNextIntlPlugin("./i18n.ts");
+
 /** @type {import('next').NextConfig} */
 
 const APP_ORIGIN = process.env.APP_ORIGIN || "http://localhost:3000";
@@ -56,4 +59,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+module.exports = withNextIntl(nextConfig);

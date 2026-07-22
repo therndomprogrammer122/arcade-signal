@@ -25,6 +25,7 @@ interface SearchResult {
 interface StationInfo {
   logoUrl: string;
   name: string;
+  nameEn: string | null;
   franchise: string;
   accentColor: string;
   featured: boolean;
@@ -66,6 +67,7 @@ export default function StationDetailPage() {
   const [station, setStation] = useState<StationInfo | null>(null);
   const [stationForm, setStationForm] = useState({
   name: "",
+  nameEn: "",
   franchise: "",
   accentColor: "#3E5C4A",
   featured: false,
@@ -89,6 +91,7 @@ export default function StationDetailPage() {
     setLogoUrlInput(data.station.logoUrl ?? "");
     setStationForm({
       name: data.station.name ?? "",
+      nameEn: data.station.nameEn ?? "",
       franchise: data.station.franchise ?? "",
       accentColor: data.station.accentColor ?? "#3E5C4A",
       featured: data.station.featured ?? false,
@@ -371,6 +374,12 @@ async function handleDeleteStation() {
       placeholder="Nombre"
       value={stationForm.name}
       onChange={(e) => setStationForm({ ...stationForm, name: e.target.value })}
+      className="border border-carbon/20 px-3 py-2 text-sm bg-transparent focus-visible:outline-2 focus-visible:outline-carbon"
+    />
+    <input
+      placeholder="Nombre en inglés (opcional)"
+      value={stationForm.nameEn}
+      onChange={(e) => setStationForm({ ...stationForm, nameEn: e.target.value })}
       className="border border-carbon/20 px-3 py-2 text-sm bg-transparent focus-visible:outline-2 focus-visible:outline-carbon"
     />
     <input

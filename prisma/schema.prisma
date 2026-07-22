@@ -15,6 +15,7 @@ model Station {
   id          String   @id @default(cuid())
   slug        String   @unique
   name        String
+  nameEn      String? // nombre en inglés, opcional — si no se completa, se usa `name` en /en también
   franchise   String
   logoUrl     String
   accentColor String // hex, ej. "#3E5C4A" (verde Hyrule apagado)

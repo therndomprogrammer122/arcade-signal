@@ -8,6 +8,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { useLocale } from "next-intl";
 import { loadYouTubeApi } from "@/lib/youtube";
 import MiniPlayer from "@/components/MiniPlayer";
 
@@ -51,6 +52,7 @@ export function usePlayer(): PlayerContextValue {
 }
 
 export default function PlayerProvider({ children }: { children: React.ReactNode }) {
+  const locale = useLocale();
   const [station, setStation] = useState<StationSummary | null>(null);
   const [track, setTrack] = useState<CurrentTrack | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -74,17 +76,16 @@ export default function PlayerProvider({ children }: { children: React.ReactNode
     setIsBuffering(true);
     try {
       const history = historyByStationRef.current.get(stationId) ?? [];
-      const excludeParam = history.length
-        ? `?exclude=${history.join(",")}`
-        : "";
-      const res = await fetch(`/api/stations/${stationId}/next-track${excludeParam}`);
+      const params = new URLSearchParams({ locale });
+      if (history.length) params.set("exclude", history.join(","));
+      const res = await fetch(`/api/stations/${stationId}/next-track?${params.toString()}`);
       if (!res.ok) throw new Error("next-track failed");
       const data = await res.json();
       return data.track as CurrentTrack & { youtubeId: string };
     } finally {
       setIsBuffering(false);
     }
-  }, []);
+  }, [locale]);
 
   const playTrack = useCallback(
     async (stationId: string) => {

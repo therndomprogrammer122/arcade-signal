@@ -19,6 +19,7 @@ export async function GET() {
       id: true,
       slug: true,
       name: true,
+      nameEn: true,
       franchise: true,
       accentColor: true,
       motif: true,
@@ -52,6 +53,7 @@ export async function POST(req: Request) {
     data: {
       slug: body.slug,
       name: body.name,
+      nameEn: body.nameEn || null,
       franchise: body.franchise,
       logoUrl: body.logoUrl ?? "",
       accentColor: body.accentColor,

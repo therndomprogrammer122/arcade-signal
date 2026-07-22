@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Unbounded, Inter, Space_Mono } from "next/font/google";
 import "./globals.css";
-import Footer from "@/components/Footer";
-import PlayerProvider from "@/components/PlayerProvider";
 
 const display = Unbounded({
   subsets: ["latin"],
@@ -40,14 +38,15 @@ export const metadata: Metadata = {
   manifest: "/icon/site.webmanifest",
 };
 
+// NOTA: PlayerProvider (el reproductor persistente) ya NO vive aquí — se
+// movio a app/[locale]/layout.tsx para que quede DENTRO del sistema de
+// idiomas (NextIntlClientProvider). Antes estaba afuera, por eso el
+// MiniPlayer nunca pudo traducirse sin romper la app entera.
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es" className={`${display.variable} ${body.variable} ${mono.variable}`}>
       <body className="bg-void text-ink font-sans antialiased min-h-screen flex flex-col">
-        <PlayerProvider>
-          <div className="flex-1">{children}</div>
-          <Footer />
-        </PlayerProvider>
+        {children}
       </body>
     </html>
   );

@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { usePlayer, type StationSummary } from "@/components/PlayerProvider";
 
 const FREQ_MIN = 88.0;
@@ -17,6 +18,7 @@ const TICKS = Array.from({ length: 21 }, (_, i) => FREQ_MIN + i);
 const LABELS = [88, 92, 96, 100, 104, 108];
 
 export default function SignalDial({ stations }: { stations: StationSummary[] }) {
+  const t = useTranslations("signalDial");
   const { station, playStation } = usePlayer();
   const activeIndex = station ? stations.findIndex((s) => s.id === station.id) : -1;
   const tuned = activeIndex >= 0;
@@ -52,7 +54,7 @@ export default function SignalDial({ stations }: { stations: StationSummary[] })
   className="relative h-8 cursor-pointer"
   onClick={handleDialClick}
   role="slider"
-  aria-label="Sintonizar estación por frecuencia"
+  aria-label={t("ariaLabel")}
   aria-valuemin={FREQ_MIN}
   aria-valuemax={FREQ_MAX}
   aria-valuenow={freq ?? FREQ_MIN}
@@ -107,12 +109,12 @@ export default function SignalDial({ stations }: { stations: StationSummary[] })
         {tuned ? (
           <p className="font-mono text-sm sm:text-base tracking-tight text-ink truncate">
             <span className="text-led font-bold">{freq!.toFixed(1)} FM</span>
-            <span className="text-ink/40"> — sintonizado en </span>
+            <span className="text-ink/40"> — {t("tunedInto")} </span>
             <span className="uppercase">{station!.name}</span>
           </p>
         ) : (
           <p className="font-mono text-sm text-ink/40 animate-static-flicker">
-            — sin señal · elige una estación —
+            {t("noSignal")}
           </p>
         )}
       </div>

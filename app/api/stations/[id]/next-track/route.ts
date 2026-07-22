@@ -40,6 +40,7 @@ export async function GET(
   }
 
   const url = new URL(req.url);
+  const locale = url.searchParams.get("locale") === "en" ? "en" : "es";
   const parsedQuery = querySchema.safeParse({
     exclude: url.searchParams.get("exclude") ?? undefined,
   });
@@ -59,11 +60,12 @@ export async function GET(
 
   const station = await prismaPublic.station.findUnique({
     where: { id: stationId },
-    select: { id: true, name: true },
+    select: { id: true, name: true, nameEn: true },
   });
   if (!station) {
     return NextResponse.json({ error: "Estación no encontrada" }, { status: 404 });
   }
+  const stationName = locale === "en" && station.nameEn ? station.nameEn : station.name;
 
   const baseWhere = { stationId, active: true };
   const totalActive = await prismaPublic.track.count({ where: baseWhere });
@@ -98,7 +100,7 @@ export async function GET(
   });
 
   return NextResponse.json({
-    station: { id: station.id, name: station.name },
+    station: { id: station.id, name: stationName },
     track,
   });
 }
